@@ -1,0 +1,562 @@
+:root {
+  --bg: #07080b;
+  --panel: rgba(14, 18, 28, 0.74);
+  --panel-strong: rgba(16, 22, 34, 0.92);
+  --text: #f7fbff;
+  --muted: #aab7c7;
+  --line: rgba(255, 255, 255, 0.14);
+  --cyan: #24d6ff;
+  --lime: #c9ff38;
+  --red: #ff415f;
+  --amber: #ffbf47;
+  --shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px clamp(18px, 4vw, 56px);
+  color: var(--text);
+  backdrop-filter: blur(18px);
+  background: linear-gradient(180deg, rgba(6, 8, 12, 0.82), rgba(6, 8, 12, 0.18));
+}
+
+.brand,
+.nav-links,
+.hero-actions,
+.speed-panel,
+.signup-form {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  gap: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, var(--cyan), var(--red));
+  color: #061017;
+  font-size: 13px;
+  border-radius: 7px;
+  box-shadow: 0 0 26px rgba(36, 214, 255, 0.34);
+}
+
+.nav-links {
+  gap: clamp(14px, 3vw, 34px);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nav-links a {
+  transition: color 180ms ease;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+.header-cta,
+.primary-btn,
+.ghost-btn,
+.signup-form button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  font-weight: 900;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.header-cta {
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--line);
+}
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  padding: 118px clamp(18px, 5vw, 72px) 86px;
+}
+
+#raceScene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7,8,11,0.96) 0%, rgba(7,8,11,0.68) 34%, rgba(7,8,11,0.14) 72%),
+    linear-gradient(0deg, rgba(7,8,11,1) 0%, rgba(7,8,11,0) 32%),
+    radial-gradient(circle at 74% 48%, rgba(36,214,255,0.16), transparent 36%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.kicker {
+  margin: 0 0 16px;
+  color: var(--lime);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 740px;
+  margin-bottom: 20px;
+  font-size: clamp(58px, 12vw, 154px);
+  line-height: 0.82;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-shadow: 0 0 34px rgba(36, 214, 255, 0.24);
+}
+
+.hero-copy {
+  max-width: 640px;
+  margin-bottom: 30px;
+  color: #d3dce8;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.55;
+}
+
+.hero-actions {
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.ghost-btn {
+  min-width: 162px;
+  padding: 0 22px;
+}
+
+.primary-btn,
+.signup-form button {
+  background: var(--lime);
+  color: #101505;
+  box-shadow: 0 0 34px rgba(201, 255, 56, 0.32);
+}
+
+.ghost-btn {
+  border-color: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.08);
+}
+
+.speed-panel {
+  position: absolute;
+  right: clamp(18px, 5vw, 72px);
+  bottom: 54px;
+  z-index: 3;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+.speed-panel > div {
+  min-width: 136px;
+  padding: 20px 22px;
+  border-right: 1px solid var(--line);
+}
+
+.speed-panel > div:last-child {
+  border-right: 0;
+}
+
+.metric-value {
+  display: block;
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.metric-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.section {
+  position: relative;
+  padding: 108px clamp(18px, 5vw, 72px);
+}
+
+.feature-band {
+  background:
+    linear-gradient(120deg, rgba(255,65,95,0.12), transparent 38%),
+    linear-gradient(220deg, rgba(36,214,255,0.12), transparent 42%),
+    #090d13;
+}
+
+.section-heading {
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+h2 {
+  max-width: 820px;
+  margin-bottom: 18px;
+  font-size: clamp(34px, 5vw, 72px);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.feature-card {
+  min-height: 290px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.035));
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.card-number {
+  display: block;
+  margin-bottom: 56px;
+  color: var(--cyan);
+  font-weight: 900;
+}
+
+h3 {
+  margin-bottom: 14px;
+  font-size: 24px;
+}
+
+.feature-card p,
+.garage-copy p,
+.launch-inner p {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.garage-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.7fr);
+  gap: clamp(32px, 6vw, 90px);
+  align-items: center;
+  background:
+    linear-gradient(180deg, #07080b, #101219),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 86px);
+}
+
+.garage-copy {
+  max-width: 720px;
+}
+
+.garage-list {
+  display: grid;
+  gap: 12px;
+}
+
+.garage-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 86px;
+  padding: 0 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-strong);
+}
+
+.garage-item span {
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.garage-item strong {
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.launch-section {
+  min-height: 74svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgba(7,8,11,0.2), #07080b),
+    radial-gradient(circle at 50% 0%, rgba(201,255,56,0.15), transparent 42%);
+}
+
+.launch-inner {
+  width: min(760px, 100%);
+}
+
+.launch-inner h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signup-form {
+  width: min(560px, 100%);
+  min-height: 58px;
+  margin: 34px auto 12px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+}
+
+.signup-form input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 0 16px;
+  background: transparent;
+  color: var(--text);
+}
+
+.signup-form input::placeholder {
+  color: #7f8b9c;
+}
+
+.signup-form button {
+  min-width: 128px;
+  border: 0;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+.form-note {
+  min-height: 24px;
+  margin-bottom: 0;
+  color: var(--lime);
+  font-weight: 800;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(34px) scale(0.98);
+  transition:
+    opacity 760ms ease,
+    transform 760ms cubic-bezier(.16, 1, .3, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hero {
+    min-height: 104svh;
+    padding-top: 102px;
+    align-items: end;
+  }
+
+  .hero-vignette {
+    background:
+      linear-gradient(0deg, rgba(7,8,11,1) 0%, rgba(7,8,11,0.72) 48%, rgba(7,8,11,0.14) 100%),
+      radial-gradient(circle at 70% 32%, rgba(36,214,255,0.18), transparent 44%);
+  }
+
+  .speed-panel {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: 38px;
+    align-self: end;
+    width: min(100%, 520px);
+  }
+
+  .speed-panel > div {
+    min-width: 0;
+    width: 33.333%;
+    padding: 16px 12px;
+  }
+
+  .metric-value {
+    font-size: 24px;
+  }
+
+  .feature-grid,
+  .garage-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    padding: 14px 16px;
+  }
+
+  .brand span:last-child {
+    display: none;
+  }
+
+  .header-cta {
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  h1 {
+    font-size: clamp(54px, 21vw, 82px);
+  }
+
+  .hero-copy {
+    font-size: 16px;
+  }
+
+  .primary-btn,
+  .ghost-btn {
+    width: 100%;
+  }
+
+  .speed-panel {
+    flex-direction: column;
+  }
+
+  .speed-panel > div {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .speed-panel > div:last-child {
+    border-bottom: 0;
+  }
+
+  .section {
+    padding: 78px 16px;
+  }
+
+  .feature-card {
+    min-height: 240px;
+    padding: 22px;
+  }
+
+  .card-number {
+    margin-bottom: 32px;
+  }
+
+  .garage-item,
+  .signup-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .garage-item {
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  .signup-form {
+    padding: 8px;
+  }
+
+  .signup-form input {
+    min-height: 48px;
+    text-align: center;
+  }
+}
