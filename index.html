@@ -1,146 +1,115 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Velocity Rift - 3D Racing Game</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#060609" />
+    <meta name="description" content="Một chuyến dạo chơi giữa các vì sao và lời chúc mừng sinh nhật Diễm Thúy từ một người bạn." />
+    <title>Mừng sinh nhật Diễm Thúy — một chiếc vũ trụ nhỏ</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="planet-renderer.js" defer></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="noise" aria-hidden="true"></div>
-
-    <header class="site-header" data-reveal>
-      <a class="brand" href="#top" aria-label="Velocity Rift">
-        <span class="brand-mark">VR</span>
-        <span>Velocity Rift</span>
+    <dialog id="intro-curtain" class="intro-curtain" open aria-modal="true" aria-labelledby="intro-title" aria-describedby="intro-description">
+      <div class="curtain-stage" aria-hidden="true">
+        <div class="curtain-panel curtain-panel-left"><span class="curtain-rings"></span></div>
+        <div class="curtain-panel curtain-panel-right"><span class="curtain-rings"></span></div>
+        <div class="curtain-rail"></div>
+      </div>
+      <div class="intro-curtain-content">
+        <span class="intro-emblem" aria-hidden="true">✦</span>
+        <p class="intro-eyebrow">A LITTLE UNIVERSE · FOR DIỄM THÚY</p>
+        <h2 id="intro-title">Có một bất ngờ<br /><em>đang chờ Thúy.</em></h2>
+        <p id="intro-description">Một món quà nho nhỏ từ bạn.<br />Chạm vào rèm để mở bất ngờ nha.</p>
+        <form method="dialog" id="intro-form" class="intro-form">
+          <button id="intro-open" class="intro-open" type="submit" autofocus><span>Bấm để kéo rèm</span><span aria-hidden="true">↔</span></button>
+        </form>
+        <p class="intro-caption">CHUYẾN ĐI BẮT ĐẦU TỪ MỘT CÚ CHẠM</p>
+      </div>
+      <span class="intro-corner" aria-hidden="true">STARDUST & GOOD VIBES</span>
+    </dialog>
+    <a class="skip-link" href="#main">Đến nội dung</a>
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div class="page-grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="wordmark" href="#home" aria-label="Về đầu trang">
+        <svg class="brand-star" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 0 18.8 12.2 29 5 21.8 15.2 32 18 19.8 20.8 27 31 16.8 23.8 14 32 11.2 20.8 1 28 8.2 17.8 0 15 12.2 12.2Z" fill="currentColor" /></svg>
+        <span>a little universe<span class="wordmark-period">.</span></span>
       </a>
-      <nav class="nav-links" aria-label="Điều hướng chính">
-        <a href="#features">Tính năng</a>
-        <a href="#garage">Garage</a>
-        <a href="#launch">Ra mắt</a>
-      </nav>
-      <a class="header-cta" href="#launch">Nhận vé Beta</a>
+      <span class="header-note"><i></i> Một món quà từ bạn</span>
+      <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Phát nhạc COME MY WAY" title="COME MY WAY — Sơn Tùng M-TP x Tyga">
+        <span class="sound-label">Bật nhạc</span><span class="sound-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </button>
     </header>
-
-    <main id="top">
-      <section class="hero" aria-label="Velocity Rift">
-        <canvas id="raceScene" aria-label="Cảnh đường đua 3D động"></canvas>
-        <div class="hero-vignette" aria-hidden="true"></div>
-
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="hero-heading">
+        <div class="hero-art" aria-hidden="true">
+          <img class="galaxy-image" src="assets/galaxy.png" alt="" fetchpriority="high" width="2200" height="1500" />
+          <canvas id="orbit-scene"></canvas>
+          <span class="art-coordinate">BIRTHDAY IN ORBIT</span>
+        </div>
+        <div id="planet-control" role="slider" tabindex="0" aria-label="Xoay hành tinh" aria-describedby="planet-hint" aria-valuemin="0" aria-valuemax="360" aria-valuenow="0" aria-valuetext="Góc xoay 0 độ" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home"></div>
+        <p id="planet-hint"><span aria-hidden="true">↔</span> <span>Chạm & kéo để xoay hành tinh</span></p>
         <div class="hero-content">
-          <p class="kicker" data-reveal>3D Arcade Racing / PC & Console</p>
-          <h1 data-reveal>Velocity Rift</h1>
-          <p class="hero-copy" data-reveal>
-            Lao qua thành phố neon, xé gió trên những khúc cua phi trọng lực,
-            và giành từng phần nghìn giây trong một giải đua tốc độ điện ảnh.
-          </p>
-
-          <div class="hero-actions" data-reveal>
-            <a class="primary-btn" href="#launch">Đăng ký Beta</a>
-            <a class="ghost-btn" href="#features">Xem gameplay</a>
-          </div>
+          <p class="eyebrow"><span class="tiny-star">✦</span> SOMEWHERE IN THE UNIVERSE</p>
+          <h1 id="hero-heading" tabindex="-1">Có tin vui nè,<br />giữa những<br /><em>vì sao.</em></h1>
+          <p class="hero-description">Một chiếc sinh nhật đang chờ phía trước.<br />Bay một vòng rồi khám phá nha!</p>
+          <a class="discover-link" href="#surprise"><span>Khám phá bất ngờ phía trước</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.2" /></svg></a>
         </div>
-
-        <aside class="speed-panel" data-reveal aria-label="Thông số game">
-          <div>
-            <span class="metric-value">320</span>
-            <span class="metric-label">km/h boost</span>
-          </div>
-          <div>
-            <span class="metric-value">12</span>
-            <span class="metric-label">đường đua</span>
-          </div>
-          <div>
-            <span class="metric-value">4K</span>
-            <span class="metric-label">60 FPS</span>
-          </div>
-        </aside>
-      </section>
-
-      <section id="features" class="section feature-band">
-        <div class="section-heading" data-reveal>
-          <p class="kicker">Gameplay nổi bật</p>
-          <h2>Tốc độ, va chạm, phản xạ.</h2>
-        </div>
-
-        <div class="feature-grid">
-          <article class="feature-card" data-reveal>
-            <span class="card-number">01</span>
-            <h3>Đường đua biến hình</h3>
-            <p>
-              Các đoạn dốc, cổng boost và chướng ngại vật thay đổi theo vòng
-              đua, buộc người chơi liên tục đọc lại đường chạy.
-            </p>
-          </article>
-          <article class="feature-card" data-reveal>
-            <span class="card-number">02</span>
-            <h3>Drift có lực</h3>
-            <p>
-              Cảm giác lái thiên về arcade nhưng vẫn có trọng lượng, giúp mỗi
-              pha ôm cua, bứt tốc và counter-steer trở nên đã tay.
-            </p>
-          </article>
-          <article class="feature-card" data-reveal>
-            <span class="card-number">03</span>
-            <h3>Đấu hạng online</h3>
-            <p>
-              Leo rank theo mùa, mở khóa decal giới hạn và so thời gian với
-              ghost của những tay đua nhanh nhất server.
-            </p>
-          </article>
+        <div class="hero-bottom">
+          <span class="edition-label">A SMALL GIFT.<br /><span>A GALAXY OF GOOD VIBES.</span></span>
+          <a class="scroll-cue" href="#surprise"><span class="scroll-line" aria-hidden="true"></span><span>Vuốt xuống · Còn một bất ngờ nữa</span><span class="scroll-arrow" aria-hidden="true">↓</span></a>
+          <span class="chapter"><span>01</span> / THE BEGINNING</span>
         </div>
       </section>
-
-      <section id="garage" class="section garage-section">
-        <div class="garage-copy" data-reveal>
-          <p class="kicker">Garage tùy biến</p>
-          <h2>Build chiếc xe theo phong cách chiến thắng của bạn.</h2>
-          <p>
-            Tinh chỉnh thân vỏ, bộ boost, lốp, màu sơn phản quang và hiệu ứng
-            nitro. Mỗi lựa chọn thay đổi cách xe tăng tốc, drift và phục hồi
-            sau va chạm.
-          </p>
-        </div>
-        <div class="garage-list" aria-label="Gói xe nổi bật">
-          <div class="garage-item" data-reveal>
-            <span>Phantom GT</span>
-            <strong>Balance</strong>
+      <section class="surprise" id="surprise" aria-labelledby="birthday">
+        <div class="surprise-stage">
+          <div class="birthday-aura" aria-hidden="true"></div>
+          <div class="reveal-orbit reveal-orbit-one" aria-hidden="true"></div><div class="reveal-orbit reveal-orbit-two" aria-hidden="true"></div>
+          <p class="journey-text">Đi một vòng vũ trụ rồi.<br /><em>Đến trạm sinh nhật thôi!</em></p>
+          <div class="birthday-content" inert>
+            <p class="eyebrow birthday-eyebrow"><span class="tiny-star">✦</span> IT'S YOUR BIRTHDAY, THÚY <span class="tiny-star">✦</span></p>
+            <h2 id="birthday"><span class="birthday-line">Chúc mừng sinh nhật</span><span class="birthday-name">Diễm <em>Thúy</em><span class="name-spark" aria-hidden="true">✧</span></span></h2>
+            <span class="birthday-divider" aria-hidden="true"></span>
+            <p class="birthday-message">Chúc Thúy tuổi mới thật vui, thật khỏe,<br class="desktop-break" /> làm gì cũng thuận lợi, thích gì cũng hết mình.</p>
+            <p class="birthday-postscript">Mong bạn có thêm nhiều chuyến đi hay và kỷ niệm vui cùng hội bạn.</p>
+            <div class="wish-invitation">
+              <p class="wish-nudge" id="wish-nudge">Đến lượt Thúy ước rồi nè <span aria-hidden="true">↙</span></p>
+              <button class="wish-button" id="wish-button" type="button" aria-haspopup="dialog" aria-controls="wish-dialog">
+                <span class="tiny-star" aria-hidden="true">✧</span><span>Ước một điều cho tuổi mới</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="1.2" /></svg>
+                <svg class="wish-doodle" viewBox="0 0 340 90" fill="none" aria-hidden="true"><path d="M310 17C259-2 71-6 23 24c-47 29-1 61 126 60 128 0 205-26 178-53C299 3 148-3 65 17" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" /></svg>
+              </button>
+            </div>
+            <p class="wish-feedback" role="status" aria-live="polite"></p>
           </div>
-          <div class="garage-item" data-reveal>
-            <span>Ion Viper</span>
-            <strong>Drift</strong>
-          </div>
-          <div class="garage-item" data-reveal>
-            <span>Apex Nova</span>
-            <strong>Boost</strong>
-          </div>
+          <span class="reveal-caption">THÊM MỘT TUỔI MỚI. THÊM NHIỀU ĐIỀU HAY.</span>
         </div>
       </section>
-
-      <section id="launch" class="section launch-section">
-        <div class="launch-inner" data-reveal>
-          <p class="kicker">Beta mở đăng ký</p>
-          <h2>Sẵn sàng vào vạch xuất phát?</h2>
-          <p>
-            Nhận thông báo khi bản Beta mở cổng và giữ chỗ trong giải đua đầu
-            tiên của Velocity Rift.
-          </p>
-          <form class="signup-form">
-            <label class="sr-only" for="email">Email</label>
-            <input id="email" type="email" placeholder="email@domain.com" required />
-            <button type="submit">Giữ chỗ</button>
-          </form>
-          <p class="form-note" role="status" aria-live="polite"></p>
-        </div>
+      <section class="closing" aria-label="Lời nhắn cuối">
+        <span class="closing-star" aria-hidden="true">✦</span>
+        <p>Tuổi mới cứ vui,<br /><em>cứ là Thúy thôi!</em></p>
+        <span class="closing-note">Một chút bụi sao. Một lời chúc từ bạn.</span>
+        <button class="replay-button" id="replay-button" type="button">Ngắm lại vũ trụ <span aria-hidden="true">↗</span></button>
       </section>
     </main>
-
-    <script type="module" src="script.js"></script>
+    <footer class="site-footer"><a href="#home">a little universe.</a><span>MADE OF STARDUST & GOOD VIBES <span aria-hidden="true">✧</span></span><span>FOR DIỄM THÚY</span></footer>
+    <audio id="birthday-music" src="assets/come-my-way.mp3" preload="none" loop aria-hidden="true"></audio>
+    <dialog id="wish-dialog" class="wish-dialog" aria-labelledby="wish-title" aria-describedby="wish-instruction" data-phase="countdown">
+      <button class="wish-close" id="wish-close" type="button" aria-label="Đóng màn hình điều ước">Đóng <span aria-hidden="true">×</span></button>
+      <div class="wish-dialog-content">
+        <p class="wish-dialog-eyebrow"><span aria-hidden="true">✦</span> MỘT KHOẢNH KHẮC CHO ĐIỀU ƯỚC</p>
+        <h2 id="wish-title">Chuẩn bị ước nha…</h2>
+        <div class="wish-count-orbit" aria-hidden="true"><span id="wish-count">3</span></div>
+        <p id="wish-instruction" class="wish-instruction" role="status" aria-live="polite" aria-atomic="true">Hít thật sâu. Nghĩ về điều bạn đang mong chờ.</p>
+        <button class="wish-return" id="wish-return" type="button" hidden>Mình ước xong rồi <span aria-hidden="true">↗</span></button>
+      </div>
+      <p class="wish-dialog-footnote">Một điều ước nhỏ, một tuổi mới thật vui.</p>
+    </dialog>
+    <noscript><div class="noscript-message">Chúc mừng sinh nhật Diễm Thúy! Chúc bạn tuổi mới thật vui, thật khỏe và có nhiều trải nghiệm hay cùng bạn bè.</div></noscript>
   </body>
 </html>
